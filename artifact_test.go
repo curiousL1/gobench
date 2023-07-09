@@ -60,6 +60,7 @@ func defaultSuiteConfig(name string, t SubBenchType) SuiteConfig {
 	}
 	if t&GoKerBlocking|t&GoKerNonBlocking != 0 {
 		ret.Timeout = 10 * time.Minute // 10 minutes is enough
+		//ret.Timeout = 1 * time.Second
 	}
 	if name == "dingo-hunter" {
 		/// ExecEnvConfig is useless for dingo-hunter
@@ -159,7 +160,7 @@ func TestArtifactGoKer(t *testing.T) {
 
 	WriteToJson(suites, true, true)
 	WriteToJson(suites, true, false)
-	PlotFig10(suites, true)
+	//PlotFig10(suites, true)
 }
 
 func TestArtifactGoReal(t *testing.T) {

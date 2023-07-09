@@ -43,7 +43,7 @@ goreal:
 
 goker:
 	cd ./dockerfiles/goker/ && docker build -t gobench:goker . -f Dockerfile && cd ../..
-	docker run --rm $(MOUNT_GOBENCH) gobench:goker make test-suite-goker
+	docker run $(MOUNT_GOBENCH) gobench:goker make test-suite-goker
 
 test-web:
 	go run cmd/web/main.go
