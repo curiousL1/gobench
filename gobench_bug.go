@@ -75,17 +75,23 @@ func newGoBench() *BugSet {
 		subsubtype := types[i][1]
 		root := getpath(subtype, subsubtype)
 		cfg := getcfg(subtype, subsubtype)
-		projects, err := ioutil.ReadDir(root)
+		projects, err := os.ReadDir(root)
 		if err != nil {
 			panic(err)
 		}
 
 		for _, p := range projects {
-			bugids, err := ioutil.ReadDir(filepath.Join(root, p.Name()))
+			if p.Name() == ".DS_Store" {
+				continue
+			}
+			bugids, err := os.ReadDir(filepath.Join(root, p.Name()))
 			if err != nil {
 				panic(err)
 			}
 			for _, id := range bugids {
+				if id.Name() == ".DS_Store" {
+					continue
+				}
 				bugs = append(bugs, compeletTypeInfo(Bug{
 					ID:         p.Name() + "_" + id.Name(),
 					Type:       toSubBenchType(subtype, subsubtype),
@@ -258,7 +264,7 @@ func rsyncSrcToDst(src string, dst string, force bool) {
 
 	if !force {
 		dst = filepath.Dir(dst)
-		args[len(args) - 1] = dst
+		args[len(args)-1] = dst
 	}
 
 	if _, err := os.Stat(dst); os.IsNotExist(err) {

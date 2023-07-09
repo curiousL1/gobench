@@ -77,7 +77,7 @@ func calculatePre(nump, numn, numf int) string {
 
 func WriteToJson(suites map[string]*Suite, isGoKer bool, isBlocking bool) {
 	var results []bugSummary
-	names := []string{"goleak", "go-deadlock", "dingo-hunter"}
+	names := []string{"goleak", "go-deadlock"}
 	types := []string{"Resource Deadlock", "Communication Deadlock", "Mixed Deadlock"}
 	if !isBlocking {
 		names = []string{"go-rd"}
