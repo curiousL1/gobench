@@ -3,7 +3,6 @@ package gobench
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -77,10 +76,12 @@ func calculatePre(nump, numn, numf int) string {
 
 func WriteToJson(suites map[string]*Suite, isGoKer bool, isBlocking bool) {
 	var results []bugSummary
-	names := []string{"goleak", "go-deadlock"}
+	//names := []string{"goleak", "go-deadlock"}
+	names := []string{"goleak"}
 	types := []string{"Resource Deadlock", "Communication Deadlock", "Mixed Deadlock"}
 	if !isBlocking {
-		names = []string{"go-rd"}
+		//names = []string{"goleak", "go-rd"}
+		names = []string{"goleak"}
 		types = []string{"Traditional", "Go-Specific"}
 	}
 	for i := 0; i < len(names); i++ {
@@ -176,7 +177,7 @@ func WriteToJson(suites map[string]*Suite, isGoKer bool, isBlocking bool) {
 
 	file := filepath.Join(".", "result", filename)
 	b, _ := json.MarshalIndent(&data, "", "\t")
-	ioutil.WriteFile(file, b, 0644)
+	os.WriteFile(file, b, 0644)
 }
 
 func CountValueForFig10(suite *Suite) []float64 {
@@ -238,7 +239,7 @@ func PlotFig10(suites map[string]*Suite, isGoKer bool) {
 	if !isGoKer {
 		file = "./result/fig10.goreal.json"
 	}
-	ioutil.WriteFile(file, b, 0644)
+	os.WriteFile(file, b, 0644)
 
 	cmd := exec.Command("python3", "plot.py")
 	cmd.Dir = GOBENCH_ROOT_PATH

@@ -7,7 +7,6 @@ import (
 	"go/printer"
 	"go/token"
 	"golang.org/x/tools/go/ast/astutil"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -47,7 +46,7 @@ func InstrumentGoleak(file string) {
 	var buf bytes.Buffer
 	astutil.AddImport(fset, astF, "go.uber.org/goleak")
 	printer.Fprint(&buf, fset, astF)
-	ioutil.WriteFile(file, buf.Bytes(), 0644)
+	os.WriteFile(file, buf.Bytes(), 0644)
 }
 
 func InstrumentGoDeadlock(file string) {

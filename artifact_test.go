@@ -96,11 +96,11 @@ func TestArtifactGoKer(t *testing.T) {
 		Type      SubBenchType
 		SetUpFunc func(suite *Suite)
 	}{
-		{
-			"go-rd",
-			GoKerNonBlocking,
-			func(suite *Suite) {},
-		},
+		//{
+		//	"go-rd",
+		//	GoKerNonBlocking,
+		//	func(suite *Suite) {},
+		//},
 		{
 			"goleak",
 			GoKerBlocking,
@@ -115,20 +115,20 @@ func TestArtifactGoKer(t *testing.T) {
 				BatchJobs(tasks, defaultJobs())
 			},
 		},
-		{
-			"go-deadlock",
-			GoKerBlocking,
-			func(suite *Suite) {
-				var tasks []func()
-				for _, file := range suite.TestFiles() {
-					file := file
-					tasks = append(tasks, func() {
-						InstrumentGoDeadlock(file)
-					})
-				}
-				BatchJobs(tasks, defaultJobs())
-			},
-		},
+		//{
+		//	"go-deadlock",
+		//	GoKerBlocking,
+		//	func(suite *Suite) {
+		//		var tasks []func()
+		//		for _, file := range suite.TestFiles() {
+		//			file := file
+		//			tasks = append(tasks, func() {
+		//				InstrumentGoDeadlock(file)
+		//			})
+		//		}
+		//		BatchJobs(tasks, defaultJobs())
+		//	},
+		//},
 		{
 			"goleak",
 			GoKerNonBlocking,

@@ -3,12 +3,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/timmyyuan/gobench"
 	"html/template"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"time"
 )
 
@@ -69,7 +69,9 @@ func load(filename string) map[string]Entry {
 func newdata() Data {
 	d := Data{}
 
-	root := filepath.Join(gobench.GOBENCH_ROOT_PATH, "result")
+	_, filename, _, _ := runtime.Caller(0)
+
+	root := filepath.Join(filepath.Dir(filename), "result")
 	figs := []string{
 		"fig10.goreal.png",
 		"fig10.goker.png",
@@ -141,7 +143,7 @@ func newdata() Data {
 }
 
 func main() {
-	root := filepath.Join(gobench.GOBENCH_ROOT_PATH, "cmd", "pdf")
+	root := filepath.Join(filepath.Dir(filename), "cmd", "pdf")
 
 	t, err := template.ParseFiles(filepath.Join(root, "index.template"))
 	if err != nil {
@@ -167,15 +169,15 @@ func main() {
 	}
 
 	/*
-	fs := http.FileServer(http.Dir(root))
-	http.Handle("/", fs)
+		fs := http.FileServer(http.Dir(root))
+		http.Handle("/", fs)
 
-	log.Println("Listening on :2021...")
-	err = http.ListenAndServe(":2021", nil)
-	if err != nil {
-		log.Fatal(err)
-	}
-	 */
+		log.Println("Listening on :2021...")
+		err = http.ListenAndServe(":2021", nil)
+		if err != nil {
+			log.Fatal(err)
+		}
+	*/
 
 	output := filepath.Join(os.Getenv("GOBENCH_ROOT_PATH"), "artifact.pdf")
 	if out, err := exec.Command("wkhtmltopdf", "index.html", output).CombinedOutput(); err != nil {
